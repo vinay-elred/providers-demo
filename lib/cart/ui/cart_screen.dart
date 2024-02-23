@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:providers_demo/cart/view_model/cart_view_model.dart';
+import 'package:providers_demo/home/view_model/home_screen_view_model.dart';
 import 'package:tuple/tuple.dart';
 
 class CartScreen extends StatelessWidget {
@@ -8,71 +9,45 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartVM = context.read<CartScreenViewModel>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cart"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Selector<CartScreenViewModel, Tuple2<int, int>>(
-              builder: (context, tuple, child) {
-                final apple = tuple.item1.toString();
-                final orange = tuple.item2.toString();
+        child: Selector<HomeScreenViewModel, List<String>>(
+          builder: (context, data, _) {
+            if (data.isEmpty) return const Text("No Data");
 
-                return Column(
-                  children: [
-                    Text(
-                      "Apple $apple",
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                    child!,
-                    Text(
-                      "Orange $orange",
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                );
-              },
-              selector: (p0, p1) => Tuple2(p1.appleCount, p1.orangeCount),
-              child: const SizedBox(height: 10),
-            ),
-            const SizedBox(height: 50),
-            const Text("Increase/Decrease Apple"),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  onPressed: cartVM.incremenApple,
-                  icon: const Icon(Icons.add),
-                ),
-                IconButton(
-                  onPressed: cartVM.decrementApple,
-                  icon: const Icon(Icons.remove),
-                )
-              ],
-            ),
-            const SizedBox(height: 50),
-            const Text("Increase/Decrease Orange"),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  onPressed: cartVM.incrementOrange,
-                  icon: const Icon(Icons.add),
-                ),
-                IconButton(
-                  onPressed: cartVM.decrementOrange,
-                  icon: const Icon(Icons.remove),
-                )
-              ],
-            ),
-          ],
+            return SizedBox(
+              width: 200,
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final item = data[index];
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        item,
+                        textAlign: TextAlign.center,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          context.read<HomeScreenViewModel>().removeItem(index);
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+              ),
+            );
+          },
+          selector: (p0, p1) => p1.data,
         ),
       ),
     );
