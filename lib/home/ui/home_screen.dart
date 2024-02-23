@@ -17,27 +17,25 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Consumer<HomeScreenViewModel>(
-              builder: (context, viewModel, _) {
-                final data = viewModel.count.toString();
-                return Text(
-                  data,
-                  style: const TextStyle(fontSize: 20),
+            Consumer<List<String>?>(
+              builder: (context, data, _) {
+                if (data == null) return const CircularProgressIndicator();
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return Text(
+                      data[index],
+                      style: const TextStyle(fontSize: 20),
+                      textAlign: TextAlign.center,
+                    );
+                  },
                 );
               },
             ),
-            const Text("Counter Data"),
             const SizedBox(height: 50),
-            const Text("Cart Data"),
-            Consumer<CartScreenViewModel>(
-              builder: (context, viewModel, _) {
-                final data = viewModel.radioGroupValue;
-                return Text(
-                  data,
-                  style: const TextStyle(fontSize: 20),
-                );
-              },
-            ),
+            const Text("Future provider"),
           ],
         ),
       ),
