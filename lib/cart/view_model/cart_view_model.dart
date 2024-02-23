@@ -4,13 +4,31 @@ class CartScreenViewModel with ChangeNotifier {
   String get radioApple => "Apple";
   String get radioOrange => "Orange";
 
-  String _radioGroupValue = "Apple";
+  int _appleCount = 0;
+  int get appleCount => _appleCount;
 
-  String get radioGroupValue => _radioGroupValue;
+  void incremenApple() {
+    _appleCount++;
+    notifyListeners();
+  }
 
-  void setRadioGroupValue(String? val) {
-    if (val == null) return;
-    _radioGroupValue = val;
+  void decrementApple() {
+    if (appleCount == 0) return;
+    _appleCount--;
+    notifyListeners();
+  }
+
+  int _orangeCount = 0;
+  int get orangeCount => _orangeCount;
+
+  void incrementOrange() {
+    _orangeCount++;
+    notifyListeners();
+  }
+
+  void decrementOrange() {
+    if (_orangeCount == 0) return;
+    _orangeCount--;
     notifyListeners();
   }
 }

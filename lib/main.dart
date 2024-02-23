@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:providers_demo/global_providers.dart';
-import 'package:providers_demo/home/ui/home_screen.dart';
+import 'package:providers_demo/home/home_screen.dart';
 
 void main(List<String> args) {
   runApp(const MyApp());

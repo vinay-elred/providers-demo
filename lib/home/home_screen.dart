@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:providers_demo/cart/ui/cart_screen.dart';
 import 'package:providers_demo/cart/view_model/cart_view_model.dart';
-import 'package:providers_demo/home/view_model/home_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,27 +16,29 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Consumer<HomeScreenViewModel>(
-              builder: (context, viewModel, _) {
-                final data = viewModel.count.toString();
+            Selector<CartScreenViewModel, int>(
+              builder: (context, appleCount, _) {
+                final data = appleCount.toString();
                 return Text(
                   data,
                   style: const TextStyle(fontSize: 20),
                 );
               },
+              selector: (p0, p1) => p1.appleCount,
             ),
-            const Text("Counter Data"),
+            const Text("Apple Count"),
             const SizedBox(height: 50),
-            const Text("Cart Data"),
-            Consumer<CartScreenViewModel>(
-              builder: (context, viewModel, _) {
-                final data = viewModel.radioGroupValue;
+            Selector<CartScreenViewModel, int>(
+              builder: (context, orangeCount, _) {
+                final data = orangeCount.toString();
                 return Text(
                   data,
                   style: const TextStyle(fontSize: 20),
                 );
               },
+              selector: (p0, p1) => p1.orangeCount,
             ),
+            const Text("Orange Count"),
           ],
         ),
       ),
