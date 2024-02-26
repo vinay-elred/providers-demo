@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:providers_demo/global_providers.dart';
-import 'package:providers_demo/home/ui/home_screen.dart';
+import 'package:providers_demo/home/auth/auth_screen.dart';
 
 void main(List<String> args) {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GlobalProviders(
       rootApp: MaterialApp(
-        home: HomeScreen(),
+        home: AuthScreen(),
       ),
     );
   }
